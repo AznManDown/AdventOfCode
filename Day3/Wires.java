@@ -3,37 +3,84 @@ import java.io.*;
 
 public class Wires {
 
-    public static void plotRoute(ArrayList<Character> direction, ArrayList<Integer> location) {
+    public static String[][] plotRoute(ArrayList<Character> direction, ArrayList<Integer> location) {
 
-        String[][] plotGrid = new String[20000][20000];
-        int xCord = 10000;
-        int yCord = 10000;
+        String[][] plotGrid = new String[30000][30000];
+        int xCord = 15000;
+        int yCord = 15000;
+
+        plotGrid[xCord][yCord] = "O";
 
         for (int i = 0; i < direction.size(); i++) {
             switch (direction.get(i)) {
                 case 'R':
-                    plotGrid[xCord][yCord + location.get(i)] = "X";
-                    yCord = yCord + location.get(i);
-                    System.out.println("X: " + xCord + ", Y: " + yCord);
+                    int endLoc = yCord + location.get(i);
+                    for (int x = yCord; x <= endLoc; x++) {
+                        plotGrid[xCord][x] = "X";
+                    }
+                    yCord = endLoc;
                     break;
                 case 'L':
-                    plotGrid[xCord][yCord - location.get(i)] = "X";
-                    yCord = yCord - location.get(i);
-                    System.out.println("X: " + xCord + ", Y: " + yCord);
-                    break;
-                case 'U':
-                    plotGrid[xCord + location.get(i)][yCord] = "X";
-                    xCord = xCord + location.get(i);
-                    System.out.println("X: " + xCord + ", Y: " + yCord);
+                    endLoc = yCord - location.get(i);
+                    for (int x = yCord; x >= endLoc; x--) {
+                        plotGrid[xCord][x] = "X";
+                    }
+                    yCord = endLoc;
                     break;
                 case 'D':
-                    plotGrid[xCord + location.get(i)][yCord] = "X";
-                    xCord = xCord - location.get(i);
-                    System.out.println("X: " + xCord + ", Y: " + yCord);
+                    endLoc = xCord + location.get(i);
+                    for (int x = xCord; x <= endLoc; x++) {
+                        plotGrid[x][yCord] = "X";
+                    }
+                    xCord = endLoc;
+                    break;
+                case 'U':
+                    endLoc = xCord - location.get(i);
+                    for (int x = xCord; x >= endLoc; x--) {
+                        plotGrid[x][yCord] = "X";
+                    }
+                    xCord = endLoc;
                     break;
             }
         }
+        return plotGrid;
     }
+
+    public static void checkOverlap(String[][] firstWire, String[][] secondWire) {
+        ArrayList<String> wireOne = new ArrayList<String>();
+        ArrayList<String> wireTwo = new ArrayList<String>();
+        ArrayList<String> matchList = new ArrayList<String>();
+
+        for (int i = 0; i < firstWire.length; i++) {
+            for (int x = 0; x < firstWire[0].length; x++) {
+                if (firstWire[i][x] != null) {
+                    wireOne.add(i + "," + x);
+                }
+            }
+        }
+
+        for (int i = 0; i < secondWire.length; i++) {
+            for (int x = 0; x < secondWire[0].length; x++) {
+                if (secondWire[i][x] != null) {
+                    wireTwo.add(i + "," + x);
+                }
+            }
+        }
+
+        for (int i = 0; i < wireOne.size(); i++) {
+            for (int x = 0; x < wireTwo.size(); x++) {
+                if (wireOne.get(i).equals(wireTwo.get(x))) {
+                    matchList.add(wireOne.get(i));
+                }
+            }
+        }
+
+        System.out.println(matchList);
+
+    }
+
+    public void
+
 
     public static void main(String[] args) {
         //Read input of two wires. Sort into two arrays.
@@ -74,7 +121,10 @@ public class Wires {
             secondLoc.add(Integer.parseInt(lInput));
         }
 
-        plotRoute(firstDirection, firstLoc);
+        String[][] firstRoute = plotRoute(firstDirection, firstLoc);
+        String[][] secondRoute = plotRoute(secondDirection, secondLoc);
+
+        checkOverlap(firstRoute, secondRoute);
 
     }
 }
