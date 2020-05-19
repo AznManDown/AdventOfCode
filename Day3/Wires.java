@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.io.*;
+import java.util.Collections;
 
 public class Wires {
 
@@ -46,7 +47,7 @@ public class Wires {
         return plotGrid;
     }
 
-    public static void checkOverlap(String[][] firstWire, String[][] secondWire) {
+    public static ArrayList<String> checkOverlap(String[][] firstWire, String[][] secondWire) {
         ArrayList<String> wireOne = new ArrayList<String>();
         ArrayList<String> wireTwo = new ArrayList<String>();
         ArrayList<String> matchList = new ArrayList<String>();
@@ -75,11 +76,23 @@ public class Wires {
             }
         }
 
-        System.out.println(matchList);
+        return matchList;
 
     }
 
-    public void
+    public static void distanceCal(ArrayList<String> input) {
+        ArrayList<Integer> dValue = new ArrayList<Integer>();
+
+        for (int i = 0; i < input.size(); i++) {
+            String[] tempString = input.get(i).split(",");
+            int dCal = Math.abs((Integer.parseInt(tempString[0]) - 15000)) + Math.abs((Integer.parseInt(tempString[1]) - 15000));
+            if (dCal != 0) {
+                dValue.add(dCal);
+            }
+        }
+        System.out.println(Collections.min(dValue));
+
+    }
 
 
     public static void main(String[] args) {
@@ -124,7 +137,9 @@ public class Wires {
         String[][] firstRoute = plotRoute(firstDirection, firstLoc);
         String[][] secondRoute = plotRoute(secondDirection, secondLoc);
 
-        checkOverlap(firstRoute, secondRoute);
+        ArrayList<String> mList = checkOverlap(firstRoute, secondRoute);
+
+        distanceCal(mList);
 
     }
 }
