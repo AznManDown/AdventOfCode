@@ -3,7 +3,7 @@ import java.io.*;
 import java.util.Collections;
 
 public class Wires {
-
+    //Rewrite to consume less RAM and processing time.
     public static String[][] plotRoute(ArrayList<Character> direction, ArrayList<Integer> location) {
 
         String[][] plotGrid = new String[30000][30000];
