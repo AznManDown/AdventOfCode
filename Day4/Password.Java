@@ -3,7 +3,7 @@ import java.util.*;
 public class Password {
 
     public static boolean passReq(String password) {
-        boolean hasDouble;
+        boolean hasDouble = false;
         int lastDigit = 0;
         String[] sChars = password.split("");
 
@@ -16,14 +16,13 @@ public class Password {
                 return false;
             }
 
-            if (currentChar.equals(lastDigit)) {
+            if (currentChar.equals(Integer.toString(lastDigit))) {
                 hasDouble = true;
             }
-
             lastDigit = Integer.parseInt(currentChar);
         }
 
-        return true;
+        return hasDouble;
 
 
     }
@@ -31,8 +30,15 @@ public class Password {
     public static void main(String[] args) {
         String minRange = "272091";
         String maxRange = "815432";
+        int passCount = 0;
 
-        System.out.println(passReq("272091"));
+        for (int min = Integer.parseInt(minRange); min <= Integer.parseInt(maxRange); min++) {
+            if (passReq(Integer.toString(min)) == true) {
+                passCount++;
+            }
+        }
+
+        System.out.println(passCount);
 
 
     }
