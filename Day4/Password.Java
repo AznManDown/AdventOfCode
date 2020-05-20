@@ -4,6 +4,7 @@ public class Password {
 
     public static boolean passReq(String password) {
         boolean hasDouble = false;
+        int digitGroup = 1;
         int lastDigit = 0;
         String[] sChars = password.split("");
 
@@ -17,9 +18,17 @@ public class Password {
             }
 
             if (currentChar.equals(Integer.toString(lastDigit))) {
-                hasDouble = true;
+                digitGroup++;
+            } else {
+                if (digitGroup == 2) {
+                    hasDouble = true;
+                }
+                digitGroup = 1;
             }
             lastDigit = Integer.parseInt(currentChar);
+        }
+        if (digitGroup == 2) {
+            hasDouble = true;
         }
 
         return hasDouble;
