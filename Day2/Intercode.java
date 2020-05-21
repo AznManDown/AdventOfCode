@@ -56,7 +56,7 @@ public class Intercode {
 
         //Import input values
         ArrayList<Integer> mList = new ArrayList<Integer>();
-        try (BufferedReader bReader = new BufferedReader(new FileReader("input"))) {
+        try (BufferedReader bReader = new BufferedReader(new FileReader("Day2/input"))) {
             String sValue = bReader.readLine();
 
             String[] intArray = sValue.split(",");
