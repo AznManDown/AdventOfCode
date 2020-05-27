@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 public class Comp {
 
-    public static int Intcomp(ArrayList<Integer> memory, int pID) {
+    public static int runProgram(ArrayList<Integer> memory, int pID) {
+
+        //currentPosEnd isn't being utilized correctly. Fix later.
 
         ArrayList<Integer> mList = new ArrayList<Integer>(memory);
         int currentPosStart = 0;
@@ -17,7 +19,6 @@ public class Comp {
             int opCode;
             int paramOne = 0;
             int paramTwo = 0;
-            int paramThree;
 
             if (currentInt >= 100) {
                 int number = currentInt;
@@ -37,9 +38,11 @@ public class Comp {
                 currentInt = opCode;
             }
 
+            //Parse current instruction into temporary array.
             switch (currentInt) {
                 case 1:
                 case 2:
+                case 7:
                     for (int i = 0; i <= 3; i++) {
                         tempList.add(mList.get(tempInt));
                         tempInt++;
@@ -52,14 +55,22 @@ public class Comp {
                         tempInt++;
                     }
                     break;
+                case 5:
+                case 6:
+                    for (int i = 0; i <= 2; i++) {
+                        tempList.add(mList.get(tempInt));
+                        tempInt++;
+                    }
+                    break;
                 case 99:
                     tempList.add(99);
                     break;
             }
 
-            //Read Instructions
+            //Read Instructions & move instruction pointer forward
             switch (currentInt) {
                 case 1:
+                    //Add
                     int posOne = tempList.get(1);
                     int posTwo = tempList.get(2);
                     int outPos = tempList.get(3);
@@ -86,6 +97,7 @@ public class Comp {
                     currentPosEnd = currentPosEnd + 4;
                     break;
                 case 2:
+                    //Multiply
                     posOne = tempList.get(1);
                     posTwo = tempList.get(2);
                     outPos = tempList.get(3);
@@ -110,6 +122,7 @@ public class Comp {
                     currentPosEnd = currentPosEnd + 4;
                     break;
                 case 3:
+                    //Read Input & Set
                     int destPos = tempList.get(1);
                     mList.set(destPos, pID);
 
@@ -117,6 +130,7 @@ public class Comp {
                     currentPosEnd = currentPosEnd + 2;
                     break;
                 case 4:
+                    //Read value and return
                     int readVal = mList.get(tempList.get(1));
 
                     if (paramOne == 1) {
@@ -127,6 +141,25 @@ public class Comp {
 
                     currentPosStart = currentPosStart + 2;
                     currentPosEnd = currentPosEnd + 2;
+                    break;
+                case 5:
+                    posOne = tempList.get(1);
+                    outPos = tempList.get(2);
+
+                    if (posOne != 0) {
+                        currentPosStart = outPos;
+                        currentPosEnd = outPos;
+                    }
+
+                    break;
+                case 6:
+                    posOne = tempList.get(1);
+                    outPos = tempList.get(2);
+
+                    if (posOne == 0) {
+                        currentPosStart = outPos;
+                        currentPosEnd = outPos;
+                    }
                     break;
                 case 99:
                     return mList.get(0);

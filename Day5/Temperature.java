@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Temperature {
 
@@ -22,14 +23,15 @@ public class Temperature {
     }
 
     public static void main(String[] args) {
-
         ArrayList<Integer> pInput = readProgram("Day5/input");
+        ArrayList<Integer> testInput = readProgram("Day2/input");
+        Comp intComputer = new Comp();
+        Scanner usrInput = new Scanner(System.in);
 
-        ArrayList<Integer> testInput = readProgram("Day5/TestInput");
+        System.out.println("Program ID: ");
+        int pID = Integer.parseInt(usrInput.next());
 
-        Comp test = new Comp();
-
-        System.out.println(test.Intcomp(pInput, 1));
+        System.out.println(intComputer.runProgram(pInput, pID));
 
     }
 }
