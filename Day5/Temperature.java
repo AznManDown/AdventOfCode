@@ -24,14 +24,15 @@ public class Temperature {
 
     public static void main(String[] args) {
         ArrayList<Integer> pInput = readProgram("Day5/input");
-        ArrayList<Integer> testInput = readProgram("Day2/input");
+        ArrayList<Integer> dayTwoInput = readProgram("Day2/input");
+        ArrayList<Integer> testInput = readProgram("Day5/TestInput");
         Comp intComputer = new Comp();
         Scanner usrInput = new Scanner(System.in);
 
         System.out.println("Program ID: ");
         int pID = Integer.parseInt(usrInput.next());
 
-        System.out.println(intComputer.runProgram(pInput, pID));
+        intComputer.runProgram(pInput, pID);
 
     }
 }

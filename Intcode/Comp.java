@@ -43,6 +43,7 @@ public class Comp {
                 case 1:
                 case 2:
                 case 7:
+                case 8:
                     for (int i = 0; i <= 3; i++) {
                         tempList.add(mList.get(tempInt));
                         tempInt++;
@@ -131,10 +132,11 @@ public class Comp {
                     break;
                 case 4:
                     //Read value and return
-                    int readVal = mList.get(tempList.get(1));
-
+                    int readVal;
                     if (paramOne == 1) {
                         readVal = tempList.get(1);
+                    } else {
+                        readVal = mList.get(tempList.get(1));
                     }
 
                     System.out.println(readVal);
@@ -144,22 +146,103 @@ public class Comp {
                     break;
                 case 5:
                     posOne = tempList.get(1);
-                    outPos = tempList.get(2);
+                    posTwo = tempList.get(2);
 
-                    if (posOne != 0) {
-                        currentPosStart = outPos;
-                        currentPosEnd = outPos;
+                    if (paramOne == 1) {
+                        intA = posOne;
+                    } else {
+                        intA = mList.get(posOne);
                     }
 
+                    if (paramTwo == 1) {
+                        intB = posTwo;
+                    } else {
+                        intB = mList.get(posTwo);
+                    }
+
+                    if (intA != 0) {
+                        currentPosStart = intB;
+                        currentPosEnd = intB;
+                    } else {
+                        currentPosStart = currentPosStart + 3;
+                        currentPosEnd = currentPosEnd + 3;
+                    }
                     break;
                 case 6:
                     posOne = tempList.get(1);
-                    outPos = tempList.get(2);
+                    posTwo = tempList.get(2);
 
-                    if (posOne == 0) {
-                        currentPosStart = outPos;
-                        currentPosEnd = outPos;
+                    if (paramOne == 1) {
+                        intA = posOne;
+                    } else {
+                        intA = mList.get(posOne);
                     }
+
+                    if (paramTwo == 1) {
+                        intB = posTwo;
+                    } else {
+                        intB = mList.get(posTwo);
+                    }
+
+                    if (intA == 0) {
+                        currentPosStart = intB;
+                        currentPosEnd = intB;
+                    } else {
+                        currentPosStart = currentPosStart + 3;
+                        currentPosEnd = currentPosEnd + 3;
+                    }
+                    break;
+                case 7:
+                    posOne = tempList.get(1);
+                    posTwo = tempList.get(2);
+                    outPos = tempList.get(3);
+
+                    if (paramOne == 1) {
+                        intA = posOne;
+                    } else {
+                        intA = mList.get(posOne);
+                    }
+
+                    if (paramTwo == 1) {
+                        intB = posTwo;
+                    } else {
+                        intB = mList.get(posTwo);
+                    }
+
+                    if (intA < intB) {
+                        mList.set(outPos, 1);
+                    } else {
+                        mList.set(outPos, 0);
+                    }
+
+                    currentPosStart = currentPosStart + 4;
+                    currentPosEnd = currentPosEnd + 4;
+                    break;
+                case 8:
+                    posOne = tempList.get(1);
+                    posTwo = tempList.get(2);
+                    outPos = tempList.get(3);
+
+                    if (paramOne == 1) {
+                        intA = posOne;
+                    } else {
+                        intA = mList.get(posOne);
+                    }
+
+                    if (paramTwo == 1) {
+                        intB = posTwo;
+                    } else {
+                        intB = mList.get(posTwo);
+                    }
+
+                    if (intA == intB) {
+                        mList.set(outPos, 1);
+                    } else {
+                        mList.set(outPos, 0);
+                    }
+
+                    currentPosStart = currentPosStart + 4;
+                    currentPosEnd = currentPosEnd + 4;
                     break;
                 case 99:
                     return mList.get(0);
