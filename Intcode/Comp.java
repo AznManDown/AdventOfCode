@@ -13,8 +13,31 @@ public class Comp {
             //Temp array to store segments of 4.
             int tempInt = currentPosStart;
             ArrayList<Integer> tempList = new ArrayList<Integer>();
+            int currentInt = mList.get(tempInt);
+            int opCode;
+            int paramOne = 0;
+            int paramTwo = 0;
+            int paramThree;
 
-            switch (mList.get(tempInt)) {
+            if (currentInt >= 100) {
+                int number = currentInt;
+                ArrayList<Integer> stack = new ArrayList<>();
+
+                while (number > 0) {
+                    stack.add(number % 10);
+                    number = number / 10;
+                }
+                while (stack.size() < 5) {
+                    stack.add(0);
+                }
+                opCode = stack.get(0);
+                paramOne = stack.get(2);
+                paramTwo = stack.get(3);
+
+                currentInt = opCode;
+            }
+
+            switch (currentInt) {
                 case 1:
                 case 2:
                     for (int i = 0; i <= 3; i++) {
@@ -35,13 +58,27 @@ public class Comp {
             }
 
             //Read Instructions
-            switch (tempList.get(0)) {
+            switch (currentInt) {
                 case 1:
                     int posOne = tempList.get(1);
                     int posTwo = tempList.get(2);
                     int outPos = tempList.get(3);
+                    int intA;
+                    int intB;
 
-                    int posAdd = mList.get(posOne) + mList.get(posTwo);
+                    if (paramOne == 1) {
+                        intA = posOne;
+                    } else {
+                        intA = mList.get(posOne);
+                    }
+
+                    if (paramTwo == 1) {
+                        intB = posTwo;
+                    } else {
+                        intB = mList.get(posTwo);
+                    }
+
+                    int posAdd = intA + intB;
 
                     mList.set(outPos, posAdd);
 
@@ -53,7 +90,19 @@ public class Comp {
                     posTwo = tempList.get(2);
                     outPos = tempList.get(3);
 
-                    int posMult = mList.get(posOne) * mList.get(posTwo);
+                    if (paramOne == 1) {
+                        intA = posOne;
+                    } else {
+                        intA = mList.get(posOne);
+                    }
+
+                    if (paramTwo == 1) {
+                        intB = posTwo;
+                    } else {
+                        intB = mList.get(posTwo);
+                    }
+
+                    int posMult = intA * intB;
 
                     mList.set(outPos, posMult);
 
@@ -69,6 +118,10 @@ public class Comp {
                     break;
                 case 4:
                     int readVal = mList.get(tempList.get(1));
+
+                    if (paramOne == 1) {
+                        readVal = tempList.get(1);
+                    }
 
                     System.out.println(readVal);
 

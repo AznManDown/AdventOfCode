@@ -25,11 +25,11 @@ public class Temperature {
 
         ArrayList<Integer> pInput = readProgram("Day5/input");
 
-        ArrayList<Integer> testInput = readProgram("Day2/input");
+        ArrayList<Integer> testInput = readProgram("Day5/TestInput");
 
         Comp test = new Comp();
 
-        System.out.println(test.Intcomp(testInput, 1));
+        System.out.println(test.Intcomp(pInput, 1));
 
     }
 }
