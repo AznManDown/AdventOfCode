@@ -1,8 +1,26 @@
 package Intcode;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Comp {
+
+    public static ArrayList<Integer> readProgram(String fileName) {
+        ArrayList<Integer> mList = new ArrayList<Integer>();
+        try (BufferedReader bReader = new BufferedReader(new FileReader(fileName))) {
+            String sValue = bReader.readLine();
+            String[] intArray = sValue.split(",");
+
+            for (String i : intArray) {
+                mList.add(Integer.parseInt(i));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return mList;
+    }
 
     public static int runProgram(ArrayList<Integer> memory, int pID) {
 
