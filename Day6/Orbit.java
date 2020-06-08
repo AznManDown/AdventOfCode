@@ -23,12 +23,16 @@ public class Orbit {
 
     public static List<Tree> createTree(LinkedList<String> data) {
 
-        String rootNode = "COM";
         Boolean setRoot = false;
 
         for (String node : data) {
             if (setRoot == false) {
                 if (node.startsWith("COM") == true) {
+                    String[] dSplit = node.split("\\)");
+                    String parent = dSplit[0];
+                    String child = dSplit[1];
+
+                    Tree  = new Tree();
 
                 }
             }
@@ -49,7 +53,5 @@ public class Orbit {
 
         LinkedList<String> orbitData = new LinkedList<String>(readInput());
         List<Tree> orbitTree = new LinkedList<>(createTree(orbitData));
-
-        System.out.println(orbitTree.get(0).data);
     }
 }
