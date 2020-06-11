@@ -30,7 +30,9 @@ public class Temperature {
         Scanner usrInput = new Scanner(System.in);
 
         System.out.println("Program ID: ");
-        int pID = Integer.parseInt(usrInput.next());
+        int uInput = Integer.parseInt(usrInput.next());
+
+        int[] pID = {uInput};
 
         intComputer.runProgram(pInput, pID);
 

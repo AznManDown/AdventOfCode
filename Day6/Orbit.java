@@ -1,8 +1,9 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 
 public class Orbit {
 
@@ -21,37 +22,42 @@ public class Orbit {
         return mList;
     }
 
-    public static List<Tree> createTree(LinkedList<String> data) {
+    public static HashSet<String> createSet(LinkedList<String> data) {
+        HashSet<String> hSet = new HashSet<>();
 
-        Boolean setRoot = false;
+        for (String cString : data) {
+            String[] dSplit = cString.split("\\)");
+            String inputA = dSplit[0];
+            String inputB = dSplit[1];
 
-        for (String node : data) {
-            if (setRoot == false) {
-                if (node.startsWith("COM") == true) {
-                    String[] dSplit = node.split("\\)");
-                    String parent = dSplit[0];
-                    String child = dSplit[1];
-
-                    Tree  = new Tree();
-
-                }
-            }
+            hSet.add(inputA);
+            hSet.add(inputB);
         }
-
-        Tree root = new Tree("A", null);
-        Tree nodeB = new Tree("B", root);
-        root.children.add(nodeB);
-        Tree nodeC = new Tree("C", nodeB);
-        nodeB.children.add(nodeC);
-        Tree nodeD = new Tree("D", nodeC);
-        nodeC.children.add(nodeD);
-
-        return root.children;
+        return hSet;
     }
 
     public static void main(String[] args) {
 
+        //Read instruction input
         LinkedList<String> orbitData = new LinkedList<String>(readInput());
-        List<Tree> orbitTree = new LinkedList<>(createTree(orbitData));
+        //Set and Hashmap to create initial nodes for tree
+        HashSet<String> nodeList = createSet(orbitData);
+        HashMap<String, Tree> nodeMap = new HashMap<>();
+
+        for (String cNode : nodeList) {
+            nodeMap.put(cNode, new Tree(cNode, null));
+        }
+
+        for(String line : orbitData) {
+            String[] lineSplit = line.split("\\)");
+            String inputA = lineSplit[0];
+            String inputB = lineSplit[1];
+
+            nodeMap.get(inputA).children.add(nodeMap.get(inputB));
+            nodeMap.get(inputB).parent = nodeMap.get(inputA);
+        }
+
+        System.out.println(nodeMap.get("COM").children.size());
+
     }
 }

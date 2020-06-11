@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Comp {
 
@@ -22,9 +23,11 @@ public class Comp {
         return mList;
     }
 
-    public static int runProgram(ArrayList<Integer> memory, int pID) {
+    public static int runProgram(ArrayList<Integer> memory, int[] usrInput) {
 
         //currentPosEnd isn't being utilized correctly. Fix later.
+        int cInput = 0;
+        int pID = 0;
 
         ArrayList<Integer> mList = new ArrayList<Integer>(memory);
         int currentPosStart = 0;
@@ -142,11 +145,15 @@ public class Comp {
                     break;
                 case 3:
                     //Read Input & Set
+                    if (cInput < usrInput.length) {
+                        pID = usrInput[cInput];
+                    }
                     int destPos = tempList.get(1);
                     mList.set(destPos, pID);
 
                     currentPosStart = currentPosStart + 2;
                     currentPosEnd = currentPosEnd + 2;
+                    cInput++;
                     break;
                 case 4:
                     //Read value and return
@@ -157,11 +164,9 @@ public class Comp {
                         readVal = mList.get(tempList.get(1));
                     }
 
-                    System.out.println(readVal);
-
                     currentPosStart = currentPosStart + 2;
                     currentPosEnd = currentPosEnd + 2;
-                    break;
+                    return readVal;
                 case 5:
                     posOne = tempList.get(1);
                     posTwo = tempList.get(2);
