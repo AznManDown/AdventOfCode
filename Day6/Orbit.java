@@ -7,9 +7,12 @@ import java.util.LinkedList;
 
 public class Orbit {
 
+    static int countResult = 0;
+    static HashMap<String, Tree> nodeMap = new HashMap<>();
+
     public static LinkedList<String> readInput() {
         LinkedList<String> mList = new LinkedList<>();
-        try (BufferedReader bReader = new BufferedReader(new FileReader("Day6/TestInput"))) {
+        try (BufferedReader bReader = new BufferedReader(new FileReader("Day6/input"))) {
             String sCurrentLine;
 
             while((sCurrentLine = bReader.readLine()) != null) {
@@ -36,16 +39,31 @@ public class Orbit {
         return hSet;
     }
 
+    public static void calcOrbits(HashMap<String, Tree> data, String currentNode, int orbitCount) {
+
+        if (data.get(currentNode).children.isEmpty()) {
+            nodeMap.get(currentNode).orbitCount = orbitCount;
+            countResult = countResult + orbitCount;
+        } else {
+            countResult = countResult + orbitCount;
+
+            for (int i=0; i < data.get(currentNode).children.size(); i++) {
+                nodeMap.get(currentNode).orbitCount = orbitCount;
+                String nextNode = data.get(currentNode).children.get(i).data;
+                calcOrbits(data, nextNode, orbitCount + 1);
+            }
+        }
+    }
+
     public static void main(String[] args) {
 
         //Read instruction input
         LinkedList<String> orbitData = new LinkedList<String>(readInput());
         //Set and Hashmap to create initial nodes for tree
         HashSet<String> nodeList = createSet(orbitData);
-        HashMap<String, Tree> nodeMap = new HashMap<>();
 
         for (String cNode : nodeList) {
-            nodeMap.put(cNode, new Tree(cNode, null));
+            nodeMap.put(cNode, new Tree(cNode, null, 0));
         }
 
         for(String line : orbitData) {
@@ -57,7 +75,9 @@ public class Orbit {
             nodeMap.get(inputB).parent = nodeMap.get(inputA);
         }
 
-        System.out.println(nodeMap.get("COM").children.size());
+        calcOrbits(nodeMap, "COM", 0);
+
+        System.out.println(countResult);
 
     }
 }
