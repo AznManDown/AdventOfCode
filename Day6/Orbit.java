@@ -1,12 +1,14 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
 public class Orbit {
 
+    //Global values for map of Tree and number of orbits. Might change later.
     static int countResult = 0;
     static HashMap<String, Tree> nodeMap = new HashMap<>();
 
@@ -55,6 +57,34 @@ public class Orbit {
         }
     }
 
+    public static int calcPath(HashMap<String, Tree> data, String start, String end) {
+        Tree sPosition = data.get(start).parent;
+        Tree ePosition = data.get(end).parent;
+        ArrayList<String> sPathList = new ArrayList<>();
+        ArrayList<String> ePathList = new ArrayList<>();
+
+        while (sPosition.parent != null) {
+            System.out.println("NODE A: " + sPosition.data);
+            sPathList.add(sPosition.data);
+            sPosition = sPosition.parent;
+        }
+
+        while (ePosition != null) {
+            System.out.println("NODE B: " + ePosition.data);
+            ePathList.add(ePosition.data);
+            ePosition = ePosition.parent;
+        }
+
+        for (int i = 0; i < sPathList.size(); i++) {
+            for (int x = 0; x < ePathList.size(); x++) {
+                if (sPathList.get(i) == ePathList.get(x)) {
+                    return x + i;
+                }
+            }
+        }
+        return 0;
+    }
+
     public static void main(String[] args) {
 
         //Read instruction input
@@ -75,9 +105,11 @@ public class Orbit {
             nodeMap.get(inputB).parent = nodeMap.get(inputA);
         }
 
+        //Calculate orbit with COM designated as root.
         calcOrbits(nodeMap, "COM", 0);
+        int result = calcPath(nodeMap, "YOU", "SAN");
 
-        System.out.println(countResult);
+        System.out.println(result);
 
     }
 }
