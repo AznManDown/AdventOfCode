@@ -39,24 +39,25 @@ public class ThrusterCalc {
         ArrayList<Integer> pInput = mComputer.readProgram("Day7/AmpController");
 
         int currentSetting = 0;
-        int ampOutput = 0;
-        int[] uInput = {0,0};
         int[] pSettings = {0,1,2,3,4};
-
-//        for (int phase : pSettings) {
-//            uInput[0] = phase;
-//            uInput[1] = ampOutput;
-//            ampOutput = mComputer.runProgram(pInput, uInput);
-//
-//        }
 
         permCalc(pSettings, pSettings.length, pSettings.length);
 
-        System.out.println(phaseArray.size());
-        
+        for (int[] currentPerm : phaseArray) {
+            int ampOutput = 0;
+            int[] uInput = {0,0};
 
+            for (int phase : currentPerm) {
+                uInput[0] = phase;
+                uInput[1] = ampOutput;
+                ampOutput = mComputer.runProgram(pInput, uInput);
+            }
+            if (ampOutput > currentSetting) {
+                currentSetting = ampOutput;
+            }
+        }
 
-
+        System.out.println(currentSetting);
     }
 
 }
