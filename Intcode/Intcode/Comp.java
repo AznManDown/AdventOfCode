@@ -1,10 +1,10 @@
 package Intcode;
 
+import IntMemory.PMemory;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Comp {
 
@@ -23,15 +23,21 @@ public class Comp {
         return mList;
     }
 
-    public static int runProgram(ArrayList<Integer> memory, int[] usrInput) {
+    public static PMemory runProgram(ArrayList<Integer> memory, int[] usrInput, PMemory pData) {
 
         //currentPosEnd isn't being utilized correctly. Fix later.
         int cInput = 0;
         int pID = 0;
+        ArrayList<Integer> mList;
 
-        ArrayList<Integer> mList = new ArrayList<Integer>(memory);
-        int currentPosStart = 0;
-        int currentPosEnd = 0;
+        if (pData.instructionList != null) {
+            mList = pData.instructionList;
+        } else {
+            mList = new ArrayList<>(memory);
+        }
+
+        int currentPosStart = pData.currentPosStart;
+        int currentPosEnd = pData.currentPosEnd;
         while (currentPosEnd <= (mList.size() - 1)) {
             //Temp array to store segments of 4.
             int tempInt = currentPosStart;
@@ -157,7 +163,7 @@ public class Comp {
                     break;
                 case 4:
                     //Read value and return
-                    int readVal;
+                    int readVal = 0;
                     if (paramOne == 1) {
                         readVal = tempList.get(1);
                     } else {
@@ -166,7 +172,10 @@ public class Comp {
 
                     currentPosStart = currentPosStart + 2;
                     currentPosEnd = currentPosEnd + 2;
-                    return readVal;
+
+                    PMemory data = new PMemory(mList, currentPosStart, currentPosEnd,4, readVal);
+
+                    return data;
                 case 5:
                     posOne = tempList.get(1);
                     posTwo = tempList.get(2);
@@ -268,9 +277,11 @@ public class Comp {
                     currentPosEnd = currentPosEnd + 4;
                     break;
                 case 99:
-                    return mList.get(0);
+                    data = new PMemory(mList, currentPosStart, currentPosEnd,99, mList.get(0));
+                    return data;
             }
         }
-        return mList.get(0);
+        PMemory data = new PMemory(mList, currentPosStart, currentPosEnd,0, mList.get(0));
+        return data;
     }
 }

@@ -34,7 +34,7 @@ public class Temperature {
 
         int[] pID = {uInput};
 
-        intComputer.runProgram(pInput, pID);
+        //intComputer.runProgram(pInput, pID);
 
     }
 }

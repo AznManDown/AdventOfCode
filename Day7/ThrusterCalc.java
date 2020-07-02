@@ -1,6 +1,7 @@
 import Intcode.Comp;
+import IntMemory.PMemory;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 
 public class ThrusterCalc {
     static ArrayList<int[]> phaseArray = new ArrayList<>();
@@ -33,27 +34,51 @@ public class ThrusterCalc {
             phase[size - 1] = temp;
         }
     }
-    
+
     public static void main(String[] args) {
         Comp mComputer = new Comp();
         ArrayList<Integer> pInput = mComputer.readProgram("Day7/AmpController");
 
         int currentSetting = 0;
-        int[] pSettings = {0,1,2,3,4};
+        int[] pSettings = {5,6,7,8,9};
 
         permCalc(pSettings, pSettings.length, pSettings.length);
 
         for (int[] currentPerm : phaseArray) {
-            int ampOutput = 0;
-            int[] uInput = {0,0};
+            //HashMap for memory storage
+            HashMap<Integer, PMemory> ampProg = new HashMap<>();
+            //Custom Class for data formatting. ArrayList, Start Position, End Position, IntComputer output.
+            PMemory ampOutput = new PMemory(null, 0, 0, 0, 0);
+            int[] uInput = {0, 0};
+            boolean firstLoop = true;
 
-            for (int phase : currentPerm) {
-                uInput[0] = phase;
-                uInput[1] = ampOutput;
-                ampOutput = mComputer.runProgram(pInput, uInput);
+            //Memory init
+            for (int i = 0; i < 5; i++) {
+                ampProg.put(i, new PMemory(null, 0,0,0, 0));
             }
-            if (ampOutput > currentSetting) {
-                currentSetting = ampOutput;
+
+            while (ampProg.get(4).exitCode != 99) {
+                for (int x = 0; x < currentPerm.length; x++) {
+                    if (firstLoop == true ) {
+                        uInput[0] = currentPerm[x];
+                    } else {
+                        uInput[0] = ampOutput.output;
+                    }
+
+                    uInput[1] = ampOutput.output;
+
+                    ampOutput = mComputer.runProgram(pInput, uInput, ampProg.get(x));
+                    ampProg.replace(x, ampOutput);
+                }
+
+                if (firstLoop == true) {
+                    firstLoop = false;
+                }
+
+                if (ampOutput.output > currentSetting) {
+                    currentSetting = ampOutput.output;
+                    System.out.println(currentSetting);
+                }
             }
         }
 
