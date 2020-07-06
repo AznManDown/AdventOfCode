@@ -1,5 +1,5 @@
 import Intcode.Comp;
-import IntMemory.PMemory;
+import Intcode.PMemory;
 import java.util.ArrayList;
 import java.util.HashMap;
 

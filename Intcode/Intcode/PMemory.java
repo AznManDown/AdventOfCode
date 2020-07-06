@@ -1,4 +1,4 @@
-package IntMemory;
+package Intcode;
 import java.util.ArrayList;
 
 public class PMemory {

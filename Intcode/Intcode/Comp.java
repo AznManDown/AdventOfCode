@@ -1,6 +1,5 @@
 package Intcode;
 
-import IntMemory.PMemory;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
