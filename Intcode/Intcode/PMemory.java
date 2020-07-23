@@ -3,13 +3,13 @@ import java.util.ArrayList;
 
 public class PMemory {
 
-    public ArrayList<Integer> instructionList = new ArrayList<>();
+    public ArrayList<Long> instructionList = new ArrayList<>();
     public int currentPosStart;
     public int currentPosEnd;
-    public int output;
+    public Long output;
     public int exitCode;
 
-    public PMemory(ArrayList<Integer> instructionList, int currentPosStart, int currentPosEnd,int exitCode, int output) {
+    public PMemory(ArrayList<Long> instructionList, int currentPosStart, int currentPosEnd,int exitCode, Long output) {
         this.instructionList = instructionList;
         this.currentPosStart = currentPosStart;
         this.currentPosEnd = currentPosEnd;
